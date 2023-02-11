@@ -4,7 +4,6 @@ import java.io.Serializable;
 @Entity
 @Table(name = "entry")
 public class Entry implements Serializable {
-
     private static final long serialVersionUID = 4L;
 
     @Id
@@ -13,9 +12,7 @@ public class Entry implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "jpaSequence")
     public int id;
 
-
-    private int x = 6;
-
+    private int x;
 
     private double y;
 
@@ -38,7 +35,7 @@ public class Entry implements Serializable {
     public void setX(int x) {
         this.x = x;
     }
-
+    /*
     public String processVerdict(){
         if (x >= 0 && y >= 0) {
             if (x <= r && y <= r) {
@@ -60,10 +57,33 @@ public class Entry implements Serializable {
         return "NOT_INCLUDED";
     }
 
+     */
+
+    public String processVerdict(int x, double y, double r){
+        if (x >= 0 && y >= 0) {
+            if (x <= r && y <= r) {
+                return "INCLUDED";
+            }
+            return "NOT_INCLUDED";
+        }
+        if (x >= 0 && y <= 0) {
+            if (x * x + y * y <= r * r) {
+                return "INCLUDED";
+            }
+            return "NOT_INCLUDED";
+        }
+        if (x<=0 && y<=0) {
+            if (y >= -0.5 * x - r/2) {
+                return "INCLUDED";
+            }
+        }
+        return "NOT_INCLUDED";
+    }
+    /*
     public void doVerdict(){
        verdict = processVerdict();
     }
-
+*/
 
     public double getY() {
         return y;

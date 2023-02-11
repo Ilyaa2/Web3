@@ -1,7 +1,8 @@
 import org.primefaces.PrimeFaces;
 
-import javax.enterprise.inject.Model;
+
 import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Model
+//@Model
+@ManagedBean
 @ApplicationScoped
 public class EntriesBean implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -17,7 +19,6 @@ public class EntriesBean implements Serializable {
 
     private Entry entry;
     private List<Entry> list;
-
 
     private EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
@@ -59,10 +60,12 @@ public class EntriesBean implements Serializable {
     public void addEntry() {
         try {
             transaction.begin();
-            entry.doVerdict();
+
+            //entry.doVerdict();
+            entry.setVerdict(entry.processVerdict(entry.getX(), entry.getY(), entry.getR()));
+
             entityManager.persist(entry);
             list.add(entry);
-            entry = new Entry();
             transaction.commit();
         } catch (RuntimeException exception) {
             if (transaction.isActive()) {
@@ -71,6 +74,13 @@ public class EntriesBean implements Serializable {
             throw exception;
         }
     }
+
+    /*
+    public void addEntryWithoutDB(){
+        entry.doVerdict();
+        System.out.println(entry);
+    }
+    */
 
     public Entry getEntry() {
         return entry;
@@ -97,7 +107,13 @@ public class EntriesBean implements Serializable {
             entry.setX(Integer.parseInt(paramMap.get("x")));
             entry.setY(Double.parseDouble(paramMap.get("y")));
             entry.setR(Double.parseDouble(paramMap.get("r")));
-            entry.doVerdict();
+
+            //entry.doVerdict();
+            System.out.println(entry);
+            entry.setVerdict(entry.processVerdict(entry.getX(), entry.getY(), entry.getR()));
+            System.out.println(entry.processVerdict(entry.getX(), entry.getY(), entry.getR()));
+            System.out.println(entry);
+
             entityManager.persist(entry);
             list.add(entry);
             PrimeFaces.current().ajax().addCallbackParam("verdict", entry.getVerdict());
@@ -113,8 +129,10 @@ public class EntriesBean implements Serializable {
     }
 
     public void sendVerdict(){
-        entry.doVerdict();
-        PrimeFaces.current().ajax().addCallbackParam("verdict", entry.getVerdict());
+        //entry.doVerdict();
+
+        PrimeFaces.current().ajax().addCallbackParam("verdict", entry.processVerdict(entry.getX(), entry.getY(), entry.getR()));
+        entry = new Entry();
     }
 
 
