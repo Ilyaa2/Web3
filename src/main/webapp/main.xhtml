@@ -19,7 +19,7 @@
         <div id="form">
             <h:form id="coords_form">
                 <h3>Enter X value</h3>
-                <p:selectOneButton value="#{entryBean.entriesBean.entry.x}" id="button_x" required="true"
+                <p:selectOneButton value="#{entryBean.entry.x}" id="button_x" required="true"
                                    requiredMessage="You must enter X">
                     <f:selectItem itemLabel="-3" itemValue="-3"/>
                     <f:selectItem itemLabel="-2" itemValue="-2"/>
@@ -37,7 +37,7 @@
                 <br/>
                 <br/>
 
-                <h3>Enter Y</h3><p:inputText value="#{entryBean.entriesBean.entry.y}" id="input_y" required="true"
+                <h3>Enter Y</h3><p:inputText value="#{entryBean.entry.y}" id="input_y" required="true"
                                              requiredMessage="Can't be empty"
                                              converterMessage="The value must be a number">
                 <!--            <f:validateDoubleRange minimum="-5.0" maximum="5.0" />-->
@@ -62,11 +62,11 @@
                 <h3>Enter R value</h3>
 
                 <h:panelGrid columns="1" style="margin-bottom: 10px">
-                    <h:inputHidden id="r" value="#{entryBean.entriesBean.entry.r}" required="true"
+                    <h:inputHidden id="r" value="#{entryBean.entry.r}" required="true"
                                    requiredMessage="Can't be empty">
                         <f:validator validatorId="validator_r"/>
                     </h:inputHidden>
-                    <h:outputText id="output" value="Set ratio to #{entryBean.entriesBean.entry.r}"/>
+                    <h:outputText id="output" value="Set ratio to #{entryBean.entry.r}"/>
                     <!--                попробуй range='false'-->
                     <p:slider for="r" minValue="1" maxValue="4" step="0.5" style="width: 200px"
                               id="slider" display="output" displayTemplate="Set ratio to {value}" onSlideEnd="go()">
@@ -84,13 +84,13 @@
 <!--                                 update="msg1 msg2 msg3 results input_y" onsuccess="drawPoint()">-->
 <!--                </p:commandButton>-->
 
-                <!--                <p:commandButton id="submit-button" value="Go" action="#{entryBean.entriesBean.addEntry}"-->
-                <!--                                 update="msg1 msg2 msg3 results input_y" onsuccess="drawPoint()">-->
-                <!--                </p:commandButton>-->
+                <p:commandButton id="submit-button" value="Go" action="#{entryBean.addEntry}"
+                                 update="msg1 msg2 msg3 results input_y" onsuccess="drawPoint()">
+                </p:commandButton>
 
-                <p:remoteCommand name="addPoint" actionListener="#{entryBean.entriesBean.addEntryWithParameters}"
+                <p:remoteCommand name="addPoint" actionListener="#{entryBean.addEntryWithParameters}"
                                  update="results input_y"/>
-                <p:remoteCommand name="getVerdict" actionListener="#{entryBean.entriesBean.sendVerdict}"
+                <p:remoteCommand name="getVerdict" actionListener="#{entryBean.sendVerdict}"
                                  update="results input_y"/>
             </h:form>
 

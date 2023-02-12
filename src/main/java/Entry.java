@@ -35,29 +35,7 @@ public class Entry implements Serializable {
     public void setX(int x) {
         this.x = x;
     }
-    /*
-    public String processVerdict(){
-        if (x >= 0 && y >= 0) {
-            if (x <= r && y <= r) {
-                return "INCLUDED";
-            }
-            return "NOT_INCLUDED";
-        }
-        if (x >= 0 && y <= 0) {
-            if (x * x + y * y <= r * r) {
-                return "INCLUDED";
-            }
-            return "NOT_INCLUDED";
-        }
-        if (x<=0 && y<=0) {
-            if (y >= -0.5 * x - r) {
-                return "INCLUDED";
-            }
-        }
-        return "NOT_INCLUDED";
-    }
 
-     */
 
     public String processVerdict(int x, double y, double r){
         if (x >= 0 && y >= 0) {
@@ -79,11 +57,7 @@ public class Entry implements Serializable {
         }
         return "NOT_INCLUDED";
     }
-    /*
-    public void doVerdict(){
-       verdict = processVerdict();
-    }
-*/
+
 
     public double getY() {
         return y;
